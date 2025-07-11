@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from '../../API/axios';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default function TaskDashboard({ user, onLogout }) {
   const [tasks, setTasks] = useState([]);
@@ -55,14 +54,6 @@ export default function TaskDashboard({ user, onLogout }) {
   const handleToggle = async (task) => {
     await axios.put(`/tasks/${task._id}`, { ...task, completed: !task.completed });
     fetchTasks();
-  };
-
-  const handleDragEnd = (result) => {
-    if (!result.destination) return;
-    const reordered = Array.from(tasks);
-    const [moved] = reordered.splice(result.source.index, 1);
-    reordered.splice(result.destination.index, 0, moved);
-    setTasks(reordered);
   };
 
   const isOverdue = (date) => date && new Date(date) < new Date() && !isNaN(new Date(date));
@@ -120,34 +111,21 @@ export default function TaskDashboard({ user, onLogout }) {
       </div>
 
       {/* Task List */}
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="taskList">
-          {(provided) => (
-            <ul {...provided.droppableProps} ref={provided.innerRef}>
-              {filtered.map((task, index) => (
-                <Draggable key={task._id} draggableId={task._id} index={index}>
-                  {(provided) => (
-                    <li
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className={`task-card ${task.completed ? 'completed' : ''} ${isOverdue(task.dueDate) ? 'overdue' : ''}`}
-                    >
-                      <strong>{task.title}</strong> - {task.description} <br />
-                      📅 {task.dueDate?.slice(0, 10)} | 🏷️ {task.category?.name || 'None'}<br />
-                      🧷 Priority: {task.priority} <br />
-                      Status: {task.completed ? '✅' : '❌'} <br />
-                      <button onClick={() => handleToggle(task)}>Toggle</button>
-                      <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
-                    </li>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <ul>
+        {filtered.map((task) => (
+          <li
+            key={task._id}
+            className={`task-card ${task.completed ? 'completed' : ''} ${isOverdue(task.dueDate) ? 'overdue' : ''}`}
+          >
+            <strong>{task.title}</strong> - {task.description} <br />
+            📅 {task.dueDate?.slice(0, 10)} | 🏷️ {task.category?.name || 'None'}<br />
+            🧷 Priority: {task.priority} <br />
+            Status: {task.completed ? '✅' : '❌'} <br />
+            <button onClick={() => handleToggle(task)}>Toggle</button>
+            <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
