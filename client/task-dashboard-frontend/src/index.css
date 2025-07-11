@@ -1,0 +1,112 @@
+/* Base styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+  color: #333;
+  transition: background 0.3s ease;
+}
+
+/* Dark Mode */
+.container.dark {
+  background: #1e1e1e;
+  color: #fff;
+}
+.container.dark input,
+.container.dark select,
+.container.dark button {
+  background: #333;
+  color: #fff;
+  border-color: #444;
+}
+.container.dark .task-card {
+  background: #2b2b2b;
+  border: 1px solid #444;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffffdd;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Form elements */
+input,
+select,
+button {
+  padding: 10px;
+  margin: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  transition: all 0.2s ease-in-out;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px #4a90e2aa;
+}
+
+button {
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #357ABD;
+}
+
+/* Task Cards */
+.task-card {
+  background: #f8f9fa;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Completion animation */
+.task-card.completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+  background-color: #d1ffd1;
+}
+
+/* Priority color indicators */
+.task-card[data-priority='High'] {
+  border-left: 6px solid #e74c3c; /* Red */
+}
+.task-card[data-priority='Medium'] {
+  border-left: 6px solid #f39c12; /* Orange */
+}
+.task-card[data-priority='Low'] {
+  border-left: 6px solid #2ecc71; /* Green */
+}
+
+/* Overdue tasks */
+.task-card.overdue {
+  background-color: #ffe0e0;
+  border: 1px solid red;
+}
+
+/* List */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
